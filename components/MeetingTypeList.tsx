@@ -120,7 +120,7 @@ const MeetingTypeList = () => {
                             </label>
                             <ReactDatePicker
                                 selected={values.dateTime}
-                                onChange={(date:any) => setvalues({ ...values, dateTime: date! })}
+                                onChange={(date) => setvalues({ ...values, dateTime: date! })}
                                 showTimeSelect
                                 timeFormat="HH:mm"
                                 timeIntervals={15}
@@ -167,7 +167,7 @@ const MeetingTypeList = () => {
       >
         <Input
           placeholder="Meeting link"
-          onChange={(e:any) => setvalues({ ...values, link: e.target.value })}
+          onChange={(e) => setvalues({ ...values, link: e.target.value })}
           className="border-none bg-dark-3 focus-visible:ring-0 focus-visible:ring-offset-0"
         />
       </MeetingModel>
