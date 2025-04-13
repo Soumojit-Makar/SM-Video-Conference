@@ -9,7 +9,7 @@ import { useParams } from 'next/navigation';
 import React, { useState } from 'react'
 const Meeting =  () => {
     const { id } = useParams() as {id:string};
-    const {user,isLoaded}=useUser();
+    const {isLoaded}=useUser();
     const [isSetupComplete, setisSetupComplete] = useState(false)
     const {call,isCallLoading}=useGetCallById(id);
     if(!isLoaded ||isCallLoading) return <Loader/>
