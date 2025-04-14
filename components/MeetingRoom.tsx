@@ -59,6 +59,7 @@ const MeetingRoom = () => {
                         handleClick={() => {
                             navigator.clipboard.writeText(fullURL)
                             toast.info('Link copied')
+                            setOpen(false)
                         }}
 
                         img='/icons/checked.svg'
