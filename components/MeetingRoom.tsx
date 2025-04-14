@@ -36,7 +36,7 @@ const MeetingRoom = () => {
       case 'speaker-buttom':
         return <SpeakerLayout participantsBarPosition={'bottom'} />;
       default:
-        return  ;
+        return   ;
     }
   }
   return (
@@ -70,9 +70,11 @@ const MeetingRoom = () => {
                         isOpen={copy}
                         onClose={() => setCopy(false)}
                         title="Copy the Meeting Link"
-                        className="text-center"
+                        className="text-center cursor-pointer"
+
                         handleClick={() => {
-                            navigator.clipboard.writeText(fullURL)
+                            navigator.clipboard.writeText(fullURL);
+                            setCopy(false)
                             toast.info('Link copied')
                         }}
 
