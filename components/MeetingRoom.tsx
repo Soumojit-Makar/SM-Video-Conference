@@ -7,6 +7,8 @@ import { LayoutList, User } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
 import EndCallButton from './EndCallButton'
 import Loader from './Loader'
+import MeetingModel from './MeetingModel'
+import { toast } from 'sonner'
 type CallLayoutType = 'grid' | 'speaker-left' | 'speaker-right'
 
 const MeetingRoom = () => {
@@ -16,6 +18,8 @@ const MeetingRoom = () => {
   const [showParticipants, setshowParticipants] = useState(false)
   const {useCallCallingState}= useCallStateHooks();
   const callingState=useCallCallingState();
+  const [open,setOpen]=useState(true);
+  const fullURL= typeof window !== 'undefined' ? window.location.href : '';
   if(callingState!==CallingState.JOINED) return <Loader/>
   const CallLayout = () => {
     switch (layout) {
@@ -45,6 +49,22 @@ const MeetingRoom = () => {
           <CallParticipantsList
             onClose={() => setshowParticipants(false)}
           />
+          
+          <MeetingModel
+                        isOpen={open}
+                        onClose={() => setOpen(false)}
+                        title="Meeting Created"
+                        className="text-center"
+                        handleClick={() => {
+                            navigator.clipboard.writeText(fullURL)
+                            toast.info('Link copied')
+                        }}
+
+                        img='/icons/checked.svg'
+                        buttonIcon='/icons/copy.svg'
+                        buttonText='Copy Meeting Link'
+
+                    />
 
         </div>
       </div>

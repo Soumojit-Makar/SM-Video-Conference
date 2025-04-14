@@ -4,7 +4,7 @@ import MeetingRoom from '@/components/MeetingRoom';
 import MeetingSetup from '@/components/MeetingSetup';
 import { useGetCallById } from '@/hooks/useGetCallById';
 import { useUser } from '@clerk/nextjs'
-import { StreamCall, StreamTheme } from '@stream-io/video-react-sdk';
+import { Call, StreamCall, StreamTheme } from '@stream-io/video-react-sdk';
 import { useParams } from 'next/navigation';
 import React, { useState } from 'react'
 const Meeting =  () => {
@@ -12,6 +12,7 @@ const Meeting =  () => {
     const {isLoaded}=useUser();
     const [isSetupComplete, setisSetupComplete] = useState(false)
     const {call,isCallLoading}=useGetCallById(id);
+    
     if(!isLoaded ||isCallLoading) return <Loader/>
     return (
         <main className='h-screen w-full'>
