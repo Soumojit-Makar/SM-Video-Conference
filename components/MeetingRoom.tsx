@@ -3,13 +3,14 @@ import { cn } from '@/lib/utils'
 import { CallControls, CallingState, CallParticipantsList, CallStatsButton, PaginatedGridLayout, SpeakerLayout, useCallStateHooks } from '@stream-io/video-react-sdk'
 import React, { useState } from 'react'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from './ui/dropdown-menu'
-import { LayoutList, User } from 'lucide-react'
+import { LayoutList, Share, User } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
 import EndCallButton from './EndCallButton'
 import Loader from './Loader'
 import MeetingModel from './MeetingModel'
 import { toast } from 'sonner'
-type CallLayoutType = 'grid' | 'speaker-left' | 'speaker-right'
+import { Button } from './ui/button'
+type CallLayoutType = 'grid' | 'speaker-left' | 'speaker-right' | 'speaker-top' | 'speaker-buttom' | 'hidden'
 
 const MeetingRoom = () => {
   const searchParams=useSearchParams();
@@ -19,6 +20,7 @@ const MeetingRoom = () => {
   const {useCallCallingState}= useCallStateHooks();
   const callingState=useCallCallingState();
   const [open,setOpen]=useState(true);
+  const [copy,setCopy]=useState(false);
   const fullURL= typeof window !== 'undefined' ? window.location.href : '';
   if(callingState!==CallingState.JOINED) return <Loader/>
   const CallLayout = () => {
@@ -26,9 +28,15 @@ const MeetingRoom = () => {
       case 'grid':
         return <PaginatedGridLayout />
       case 'speaker-right':
-        return <SpeakerLayout participantsBarPosition={'left'} />
-      default:
+        return <SpeakerLayout participantsBarPosition={'left'} />;
+      case 'speaker-left':
         return <SpeakerLayout participantsBarPosition={'right'} />;
+      case 'speaker-top':
+        return <SpeakerLayout participantsBarPosition={'top'} />;
+      case 'speaker-buttom':
+        return <SpeakerLayout participantsBarPosition={'bottom'} />;
+      default:
+        return  ;
     }
   }
   return (
@@ -42,13 +50,6 @@ const MeetingRoom = () => {
           className='flex size-full max-w-[1000px] items-center'
         >
           <CallLayout />
-        </div>
-        <div
-          className={cn('h-[calc(100vh-86px)]  ml-2  flex', { 'hidden': !showParticipants })}
-        >
-          <CallParticipantsList
-            onClose={() => setshowParticipants(false)}
-          />
           
           <MeetingModel
                         isOpen={open}
@@ -64,8 +65,32 @@ const MeetingRoom = () => {
                         buttonIcon='/icons/copy.svg'
                         buttonText='Copy Meeting Link'
 
-                    />
+          />
+          <MeetingModel
+                        isOpen={copy}
+                        onClose={() => setCopy(false)}
+                        title="Copy the Meeting Link"
+                        className="text-center"
+                        handleClick={() => {
+                            navigator.clipboard.writeText(fullURL)
+                            toast.info('Link copied')
+                        }}
 
+                        img='/icons/checked.svg'
+                        buttonIcon='/icons/copy.svg'
+                        buttonText='Copy Meeting Link'
+
+          />
+                    
+
+        </div>
+        <div
+          className={cn('h-[calc(100vh-86px)]  ml-2  flex', { 'hidden': !showParticipants })}
+        >
+          <CallParticipantsList
+            onClose={() => setshowParticipants(false)}
+          />
+          
         </div>
       </div>
       
@@ -86,7 +111,7 @@ const MeetingRoom = () => {
         <DropdownMenuContent
           className='border border-gray-950 bg-gray-900 text-white '
         >
-          {['grid', 'speaker-left', 'speaker-right'].map((item, index) => (
+          {['grid', 'speaker-left', 'speaker-right','speaker-top','speaker-buttom'].map((item, index) => (
             <div key={index}>
               <DropdownMenuItem 
               className='cursor-pointer'
@@ -99,6 +124,14 @@ const MeetingRoom = () => {
               <DropdownMenuSeparator/>
             </div>
           ))}
+           <DropdownMenuItem 
+              className='cursor-pointer'
+              onClick={()=>{
+                setlayout('hidden')
+              }}
+              >
+                Hidden
+              </DropdownMenuItem>
         </DropdownMenuContent>
 
       </DropdownMenu>
@@ -116,6 +149,12 @@ const MeetingRoom = () => {
           {isPersonalRoom&&
           <EndCallButton/>
           }
+          <Button
+            onClick={()=>setCopy(true)}
+          className='cursor-pointer rounded-2xl bg-[#19232d] px-4 py-2 hover:bg-[#4c535b]'
+          >
+            <Share/>
+          </Button>
       </div>
             
     </section>
