@@ -32,11 +32,11 @@ const MeetingRoom = () => {
       case 'speaker-left':
         return <SpeakerLayout participantsBarPosition={'right'} />;
       case 'speaker-top':
-        return <SpeakerLayout participantsBarPosition={'top'} />;
-      case 'speaker-buttom':
         return <SpeakerLayout participantsBarPosition={'bottom'} />;
+      case 'speaker-buttom':
+        return <SpeakerLayout participantsBarPosition={'top'} />;
       default:
-        return   ;
+        return  <SpeakerLayout/>
     }
   }
   return (
