@@ -1,6 +1,6 @@
 'use client'
 import { cn } from '@/lib/utils'
-import { CallControls, CallingState, CallParticipantsList, CallStatsButton, PaginatedGridLayout, SpeakerLayout, useCallStateHooks } from '@stream-io/video-react-sdk'
+import { CallControls, CallingState, CallParticipantsList, CallStatsButton, LivestreamLayout, PaginatedGridLayout, SpeakerLayout, useCallStateHooks } from '@stream-io/video-react-sdk'
 import React, { useState } from 'react'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from './ui/dropdown-menu'
 import { LayoutList, Share, User } from 'lucide-react'
@@ -36,7 +36,7 @@ const MeetingRoom = () => {
       case 'speaker-buttom':
         return <SpeakerLayout participantsBarPosition={'top'} />;
       default:
-        return  <SpeakerLayout/>
+        return <LivestreamLayout/>
     }
   }
   return (
